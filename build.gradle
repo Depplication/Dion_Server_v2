@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.3'
+	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+	id 'java'
+}
+
+group = 'com.dion'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Lombok
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+	annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+
+	//jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	// DB
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.29'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.7.2'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.7.1'
+
+	// Junit
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.2'
+	testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.2'
+
+	// Swagger
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+
+	//Spring Boot
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.7.2'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.2'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
