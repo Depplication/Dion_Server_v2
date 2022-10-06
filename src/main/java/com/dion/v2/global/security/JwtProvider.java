@@ -2,7 +2,6 @@ package com.dion.v2.global.security;
 
 import com.dion.v2.domain.auth.entity.User;
 import com.dion.v2.domain.auth.repository.UserRepository;
-import com.dion.v2.global.security.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,7 +20,7 @@ import java.util.Date;
 public class JwtProvider {
 
     private final UserRepository userRepository;
-    private JwtProperties jwtProperties;
+    private final JwtProperties jwtProperties;
 
     public String generateAccessToken(Long userId) {
         return generateToken(userId.toString(), jwtProperties.getAccessExp());
@@ -58,15 +57,12 @@ public class JwtProvider {
     }
 
     private String generateToken(String id, Long exp) {
-       String token = Jwts.builder()
-               .setSubject(id)
-               .setIssuedAt(new Date())
-               .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
-               .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
-               .compact();
-
-       log.info("token : " + token);
-        return token;
+        return Jwts.builder()
+                .setSubject(id)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + exp * 1000))
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .compact();
     }
 
     public LocalDateTime getExpiredTime() {

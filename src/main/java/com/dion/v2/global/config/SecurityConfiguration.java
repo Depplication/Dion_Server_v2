@@ -29,8 +29,8 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                .anyRequest().denyAll()
+                .antMatchers(HttpMethod.POST, "/admin/**").hasAnyRole("ADMIN")
+                .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();

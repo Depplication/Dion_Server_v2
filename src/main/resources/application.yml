@@ -22,6 +22,6 @@ server:
       enabled: false
 
 jwt:
-  secret-key: "asflkjklqwoiasjdlfknlkclkjlkh123lknasdlfjh3849uasjdkfn289uo198hdnsjkfbkwje"
-  access-exp: 10000
-  refresh-exp: 10000
+  secretKey: "asflkjklqwoiasjdlfknlkclkjlkh123lknasdlfjh3849uasjdkfn289uo198hdnsjkfbkwje"
+  accessExp: 10000
+  refreshExp: 10000
