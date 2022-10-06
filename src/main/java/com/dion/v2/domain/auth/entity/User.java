@@ -56,12 +56,9 @@ public class User {
 
     @Builder
     public User(
-            String userId,
-            String password,
-            String userName,
-            String userNumber,
-            String addressLatitude,
-            String addressLongitude,
+            String userId, String password,
+            String userName, String userNumber,
+            String addressLatitude, String addressLongitude,
             List<Account> accountList) {
         this.userId = userId;
         this.password = password;
@@ -70,5 +67,14 @@ public class User {
         this.addressLatitude = addressLatitude;
         this.addressLongitude = addressLongitude;
         this.accountList = accountList;
+    }
+
+    public User updateUser(
+            String userName, String userNumber,
+            String addressLongitude, String addressLatitude) {
+        this.userName = userName;
+        this.userNumber = userNumber;
+        this.addressLongitude = addressLongitude;
+        this.addressLatitude = addressLatitude;
     }
 }

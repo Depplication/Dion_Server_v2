@@ -2,6 +2,8 @@ package com.dion.v2.domain.auth.presentation;
 
 import com.dion.v2.domain.auth.presentation.dto.request.UserSignInRequest;
 import com.dion.v2.domain.auth.presentation.dto.request.UserSignUpRequest;
+import com.dion.v2.domain.auth.presentation.dto.request.UserUpdateRequest;
+import com.dion.v2.domain.auth.presentation.dto.response.UserResponse;
 import com.dion.v2.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.dion.v2.domain.auth.service.AuthService;
 import io.swagger.annotations.Api;
@@ -33,6 +35,27 @@ public class AuthController {
             @RequestBody UserSignInRequest request
     ) {
         return authService.userSignIn(request);
+    }
+
+    @ApiOperation("유저 정보 가져오기")
+    @GetMapping("/")
+    public UserResponse getUser() {
+        return authService.getUser();
+    }
+
+    @ApiOperation("유저 정보 수정")
+    @PatchMapping("/")
+    public UserResponse userUpdate(
+            @RequestBody UserUpdateRequest request
+    ) {
+        return authService.userUpdate(request);
+    }
+
+    @ApiOperation("유저 탈퇴")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/")
+    public void userDelete() {
+        authService.userDelete();
     }
 
 }

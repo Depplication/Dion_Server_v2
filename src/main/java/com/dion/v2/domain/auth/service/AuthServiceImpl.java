@@ -8,18 +8,23 @@ import com.dion.v2.domain.auth.exception.UserPasswordWrongException;
 import com.dion.v2.domain.auth.facade.UserFacade;
 import com.dion.v2.domain.auth.presentation.dto.request.UserSignInRequest;
 import com.dion.v2.domain.auth.presentation.dto.request.UserSignUpRequest;
+import com.dion.v2.domain.auth.presentation.dto.request.UserUpdateRequest;
 import com.dion.v2.domain.auth.presentation.dto.response.AccountResponse;
 import com.dion.v2.domain.auth.presentation.dto.response.AddressResponse;
 import com.dion.v2.domain.auth.presentation.dto.response.UserResponse;
 import com.dion.v2.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.dion.v2.domain.auth.repository.UserRepository;
 import com.dion.v2.global.security.JwtProvider;
+import com.dion.v2.global.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -32,6 +37,7 @@ public class AuthServiceImpl implements AuthService{
     private final UserFacade userFacade;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final UserUtils userUtils;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -63,7 +69,6 @@ public class AuthServiceImpl implements AuthService{
     @Override
     @Transactional(rollbackFor = Exception.class)
     public UserTokenResponse userSignIn(UserSignInRequest request) {
-
         User user = userRepository.findByUserId(request.getId())
                 .orElseThrow(() -> {throw UserNotFoundException.EXCEPTION;});
 
@@ -71,24 +76,45 @@ public class AuthServiceImpl implements AuthService{
             String token = jwtProvider.generateAccessToken(user.getId());
 
             return UserTokenResponse.builder()
-                    .userData(UserResponse.builder()
-                            .id(user.getId())
-                            .userId(user.getUserId())
-                            .userName(user.getUserName())
-                            .userNumber(user.getUserNumber())
-                            .createdDate(user.getCreatedDate())
-                            .userAddress(new AddressResponse(user.getAddressLatitude(), user.getAddressLongitude()))
-                            .accountList(user.getAccountList().stream().map(it ->
-                                    AccountResponse.builder()
-                                            .accountId(it.getAccountId())
-                                            .accountNumber(it.getAccountNumber())
-                                            .build()
-                            ).collect(Collectors.toList()))
-                            .build())
+                    .userData(userUtils.getUserResponse(user))
                     .token(token)
                     .build();
         } else {
             throw UserPasswordWrongException.EXCEPTION;
         }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public UserResponse userUpdate(UserUpdateRequest request) {
+        User user = userFacade.queryUser(true);
+
+        user = userRepository.save(user.updateUser(
+                request.getUserName(), request.getUserNumber(),
+                request.getAddressLongitude(), request.getAddressLatitude()
+        ));
+
+        return userUtils.getUserResponse(user);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void userDelete() {
+        User user = userFacade.queryUser(true);
+
+        user.getAccountList().stream()
+                .map(it -> user.getAccountList().remove(it))
+                .close();
+        userRepository.delete(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserResponse getUser() {
+        User user = userFacade.queryUser(true);
+
+        return userUtils.getUserResponse(user);
+    }
+
+
 }

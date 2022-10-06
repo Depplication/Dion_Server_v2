@@ -6,6 +6,7 @@ import com.dion.v2.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -13,11 +14,20 @@ public class UserFacade {
 
     private final UserRepository userRepository;
 
-    public User queryCurrentUser() {
-        User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @Transactional(readOnly = true)
+    public User queryUser(boolean withPersistence) {
+        User withoutPersistencce = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return userRepository.findById(principal.getId())
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        if(withPersistence) {
+            return userRepository.findById(withoutPersistencce.getId())
+                    .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        }else {
+            return withoutPersistencce;
+        }
+    }
+
+    public User queryUser() {
+        return queryUser(false);
     }
 
     public User queryUserById(Long userId) {

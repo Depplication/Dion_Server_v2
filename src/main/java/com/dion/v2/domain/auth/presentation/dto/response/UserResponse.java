@@ -19,7 +19,7 @@ public class UserResponse {
 
     private String userNumber;
 
-    private LocalDateTime createdDate;
+    private String createdDate;
 
     private AddressResponse userAddress;
 
