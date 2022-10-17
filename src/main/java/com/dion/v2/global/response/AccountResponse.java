@@ -1,4 +1,4 @@
-package com.dion.v2.domain.auth.presentation.dto.response;
+package com.dion.v2.global.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

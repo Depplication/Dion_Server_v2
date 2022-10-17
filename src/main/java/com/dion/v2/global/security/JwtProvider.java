@@ -2,6 +2,8 @@ package com.dion.v2.global.security;
 
 import com.dion.v2.domain.auth.entity.User;
 import com.dion.v2.domain.auth.repository.UserRepository;
+import com.dion.v2.domain.owner.entity.Owner;
+import com.dion.v2.domain.owner.repository.OwnerRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,21 +22,29 @@ import java.util.Date;
 public class JwtProvider {
 
     private final UserRepository userRepository;
+    private final OwnerRepository ownerRepository;
     private final JwtProperties jwtProperties;
 
-    public String generateAccessToken(Long userId) {
-        return generateToken(userId.toString(), jwtProperties.getAccessExp());
+    public String generateAccessToken(Long id) {
+        return generateToken(id.toString(), jwtProperties.getAccessExp());
     }
 
-    public String generateRefreshToken(Long userId) {
-        return generateToken(userId.toString(), jwtProperties.getRefreshExp());
+    public String generateRefreshToken(Long id) {
+        return generateToken(id.toString(), jwtProperties.getRefreshExp());
     }
 
     @Transactional
-    public Authentication authentication(String token) {
+    public Authentication userAuthentication(String token) {
         User userDetails = userRepository
                 .findById(getTokenSubject(token)).orElseThrow();
         return new UserToken(userDetails);
+    }
+
+    @Transactional
+    public Authentication ownerAuthentication(String token) {
+        Owner ownerDetails = ownerRepository
+                .findById(getTokenSubject(token)).orElseThrow();
+        return new UserToken(ownerDetails);
     }
 
     public String parseToken(String bearerToken) {
