@@ -1,13 +1,11 @@
 package com.dion.v2.global.utils;
 
 import com.dion.v2.domain.auth.entity.User;
-import com.dion.v2.domain.auth.presentation.dto.response.AccountResponse;
-import com.dion.v2.domain.auth.presentation.dto.response.AddressResponse;
+import com.dion.v2.global.response.AccountResponse;
+import com.dion.v2.global.response.AddressResponse;
 import com.dion.v2.domain.auth.presentation.dto.response.UserResponse;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 public class UserUtils {
@@ -20,10 +18,7 @@ public class UserUtils {
                 .userNumber(user.getUserNumber())
                 .userAddress(new AddressResponse(user.getAddressLatitude(), user.getAddressLongitude()))
                 .createdDate(
-                        new SimpleDateFormat("yyyy-MM-dd")
-                                .format(Date.from(
-                                        user.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant()
-                                ))
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd").format(user.getCreatedDate())
                 )
                 .accountList(user.getAccountList().stream().map(it ->
                         AccountResponse.builder()
