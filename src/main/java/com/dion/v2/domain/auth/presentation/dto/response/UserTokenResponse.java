@@ -9,7 +9,6 @@ import lombok.Getter;
 public class UserTokenResponse {
 
     private String token;
-
     private UserResponse userData;
 
 }

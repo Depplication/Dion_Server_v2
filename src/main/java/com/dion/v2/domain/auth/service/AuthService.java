@@ -8,7 +8,7 @@ import com.dion.v2.domain.auth.presentation.dto.response.UserTokenResponse;
 
 public interface AuthService {
 
-    Long userSignUp(UserSignUpRequest request);
+    void userSignUp(UserSignUpRequest request);
 
     UserTokenResponse userSignIn(UserSignInRequest request);
 

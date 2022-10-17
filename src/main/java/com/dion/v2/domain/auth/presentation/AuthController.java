@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Api("유저")
 @RestController
 @RequiredArgsConstructor
@@ -23,10 +25,10 @@ public class AuthController {
     @ApiOperation("유저 회원가입")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/sign-up")
-    public Long userSignUp(
-            @RequestBody UserSignUpRequest request
+    public void userSignUp(
+            @RequestBody @Valid UserSignUpRequest request
     ) {
-        return authService.userSignUp(request);
+        authService.userSignUp(request);
     }
 
     @ApiOperation("유저 로그인")

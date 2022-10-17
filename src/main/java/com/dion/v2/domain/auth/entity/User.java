@@ -69,7 +69,7 @@ public class User {
         this.accountList = accountList;
     }
 
-    public User updateUser(
+    public void updateUser(
             String userName, String userNumber,
             String addressLongitude, String addressLatitude) {
         this.userName = userName;

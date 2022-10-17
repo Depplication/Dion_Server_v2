@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 public class UserSignInRequest {
 
     private String id;
-
     private String pw;
 
 }
