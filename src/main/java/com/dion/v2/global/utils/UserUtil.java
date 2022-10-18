@@ -8,9 +8,9 @@ import com.dion.v2.domain.auth.presentation.dto.response.UserResponse;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
-public class UserUtils {
+public class UserUtil {
 
-    public UserResponse getUserResponse(User user) {
+    public static UserResponse getUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
                 .userId(user.getUserId())

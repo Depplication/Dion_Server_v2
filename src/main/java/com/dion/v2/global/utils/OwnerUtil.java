@@ -8,9 +8,9 @@ import com.dion.v2.global.response.AddressResponse;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
-public class OwnerUtils {
+public class OwnerUtil {
 
-    public OwnerResponse getOwnerResponse(Owner owner) {
+    public static OwnerResponse getOwnerResponse(Owner owner) {
         return OwnerResponse.builder()
                 .id(owner.getId())
                 .ownerId(owner.getOwnerId())
