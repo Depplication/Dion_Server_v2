@@ -1,5 +1,6 @@
 package com.dion.v2.domain.auth.entity;
 
+import com.dion.v2.domain.point.entity.UserPoint;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +53,12 @@ public class User {
     public void addAccount(Account account) {
         account.setUser(this);
         this.accountList.add(account);
+    }
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserPoint point;
+    public void setPoint(UserPoint point) {
+        this.point = point;
     }
 
     @Builder

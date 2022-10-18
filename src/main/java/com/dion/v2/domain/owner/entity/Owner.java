@@ -1,5 +1,6 @@
 package com.dion.v2.domain.owner.entity;
 
+import com.dion.v2.domain.point.entity.OwnerPoint;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,6 +48,12 @@ public class Owner {
     public void addAccount(Account account) {
         account.setOwner(this);
         this.accountList.add(account);
+    }
+
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private OwnerPoint point;
+    public void setPoint(OwnerPoint point) {
+        this.point = point;
     }
 
     @Builder

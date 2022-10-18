@@ -11,9 +11,10 @@ import com.dion.v2.domain.owner.presentation.dto.request.OwnerUpdateRequest;
 import com.dion.v2.domain.owner.presentation.dto.response.OwnerResponse;
 import com.dion.v2.domain.owner.presentation.dto.response.OwnerTokenResponse;
 import com.dion.v2.domain.owner.repository.OwnerRepository;
+import com.dion.v2.domain.point.entity.OwnerPoint;
 import com.dion.v2.global.exception.PasswordWrongException;
 import com.dion.v2.global.security.JwtProvider;
-import com.dion.v2.global.utils.OwnerUtils;
+import com.dion.v2.global.utils.OwnerUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,6 @@ public class OwnerServiceImpl implements OwnerService{
     private final OwnerFacade ownerFacade;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
-    private final OwnerUtils ownerUtils;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -49,6 +49,7 @@ public class OwnerServiceImpl implements OwnerService{
                 .addressLongitude(request.getAddress()[1])
                 .accountList(new ArrayList<>())
                 .build();
+        owner.setPoint(new OwnerPoint(0L));
         owner = ownerRepository.save(owner);
 
         for (String account : request.getAccount()) {
@@ -68,7 +69,7 @@ public class OwnerServiceImpl implements OwnerService{
             String token = jwtProvider.generateAccessToken(owner.getId());
 
             return OwnerTokenResponse.builder()
-                    .ownerData(ownerUtils.getOwnerResponse(owner))
+                    .ownerData(OwnerUtil.getOwnerResponse(owner))
                     .token(token)
                     .build();
         } else {
@@ -88,7 +89,7 @@ public class OwnerServiceImpl implements OwnerService{
         );
         owner = ownerRepository.save(owner);
 
-        return ownerUtils.getOwnerResponse(owner);
+        return OwnerUtil.getOwnerResponse(owner);
     }
 
     @Override
@@ -107,6 +108,6 @@ public class OwnerServiceImpl implements OwnerService{
     public OwnerResponse getOwner() {
         Owner owner = ownerFacade.queryOwner(true);
 
-        return ownerUtils.getOwnerResponse(owner);
+        return OwnerUtil.getOwnerResponse(owner);
     }
 }

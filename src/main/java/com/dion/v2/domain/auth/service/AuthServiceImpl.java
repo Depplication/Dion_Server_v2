@@ -4,6 +4,7 @@ import com.dion.v2.domain.auth.entity.Account;
 import com.dion.v2.domain.auth.entity.User;
 import com.dion.v2.domain.auth.exception.UserAlreadyExistsException;
 import com.dion.v2.domain.auth.exception.UserNotFoundException;
+import com.dion.v2.domain.point.entity.UserPoint;
 import com.dion.v2.global.exception.PasswordWrongException;
 import com.dion.v2.domain.auth.facade.UserFacade;
 import com.dion.v2.domain.auth.presentation.dto.request.UserSignInRequest;
@@ -13,7 +14,7 @@ import com.dion.v2.domain.auth.presentation.dto.response.UserResponse;
 import com.dion.v2.domain.auth.presentation.dto.response.UserTokenResponse;
 import com.dion.v2.domain.auth.repository.UserRepository;
 import com.dion.v2.global.security.JwtProvider;
-import com.dion.v2.global.utils.UserUtils;
+import com.dion.v2.global.utils.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,6 @@ public class AuthServiceImpl implements AuthService{
     private final UserFacade userFacade;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
-    private final UserUtils userUtils;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -48,6 +48,7 @@ public class AuthServiceImpl implements AuthService{
                 .addressLongitude(request.getAddress()[1])
                 .accountList(new ArrayList<>())
                 .build();
+        user.setPoint(new UserPoint(0L));
         user = userRepository.save(user);
 
         for(String account : request.getAccount()) {
@@ -67,7 +68,7 @@ public class AuthServiceImpl implements AuthService{
             String token = jwtProvider.generateAccessToken(user.getId());
 
             return UserTokenResponse.builder()
-                    .userData(userUtils.getUserResponse(user))
+                    .userData(UserUtil.getUserResponse(user))
                     .token(token)
                     .build();
         } else {
@@ -85,7 +86,7 @@ public class AuthServiceImpl implements AuthService{
                 request.getAddressLongitude(), request.getAddressLatitude());
         user = userRepository.save(user);
 
-        return userUtils.getUserResponse(user);
+        return UserUtil.getUserResponse(user);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class AuthServiceImpl implements AuthService{
     public UserResponse getUser() {
         User user = userFacade.queryUser(true);
 
-        return userUtils.getUserResponse(user);
+        return UserUtil.getUserResponse(user);
     }
 
 
