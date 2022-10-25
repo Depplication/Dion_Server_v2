@@ -29,10 +29,12 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/admin/**").hasAnyRole("ADMIN")
-                .anyRequest().permitAll()
+                .antMatchers(HttpMethod.POST, "/admin/**").hasAnyRole("ADMIN") // 관리자만 관리자페이지 접근 가능
+                .antMatchers("/owner/**").hasAnyRole("OWNER") // 소상공인만 소상공인페이지 접근 가능
+                .antMatchers("/report/comment/**").hasAnyRole("ADMIN") // 문의 답글은 관리자만 답장 가능
+                .anyRequest().permitAll() // 그외 모두 허용
                 .and()
-                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class); // 토큰 검사
         return http.build();
     }
 

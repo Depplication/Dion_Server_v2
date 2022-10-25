@@ -16,7 +16,6 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
 
-    @Lob
     @Column(nullable = false)
     private String accountNumber;
 
