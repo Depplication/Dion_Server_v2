@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/ad")
 public class AdvertisingController {
 
-    private AdService adService;
+    private final AdService adService;
 
     @ApiOperation("광고 등록하기")
     @PostMapping("/")
@@ -23,6 +23,15 @@ public class AdvertisingController {
             @RequestBody CreateAdRequest data
     ) {
         return adService.createAd(data);
+    }
+
+    @ApiOperation("광고 삭제하기")
+    @DeleteMapping("/{ad-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAd(
+            @PathVariable("ad-id") Long adId
+    ) {
+        adService.deleteAd(adId);
     }
 
 }
