@@ -18,9 +18,7 @@ public class OwnerUtil {
                 .storeName(owner.getStoreName())
                 .ownerNumber(owner.getOwnerNumber())
                 .ownerAddress(new AddressResponse(owner.getAddressLatitude(), owner.getAddressLongitude()))
-                .createdDate(
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd").format(owner.getCreatedDate())
-                )
+                .createdDate(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(owner.getCreatedDate()))
                 .accountList(owner.getAccountList().stream().map(it ->
                         AccountResponse.builder()
                                 .accountId(it.getAccountId())
