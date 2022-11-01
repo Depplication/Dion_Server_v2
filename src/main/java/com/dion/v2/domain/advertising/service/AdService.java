@@ -1,6 +1,7 @@
 package com.dion.v2.domain.advertising.service;
 
 import com.dion.v2.domain.advertising.presentation.dto.request.CreateAdRequest;
+import com.dion.v2.domain.advertising.presentation.dto.response.AdListResponse;
 import com.dion.v2.domain.advertising.presentation.dto.response.AdResponse;
 import com.dion.v2.domain.advertising.type.Category;
 
@@ -10,9 +11,9 @@ public interface AdService {
 
     AdResponse getAd(Long adId);
 
-    AdResponse getAdByTitle(String title);
+    AdListResponse getAdByTitle(String title);
 
-    AdResponse getAdByCategory(Category category);
+    AdListResponse getAdByCategory(Category category);
 
     void deleteAd(Long adId);
 }

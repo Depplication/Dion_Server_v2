@@ -16,7 +16,7 @@ public class AdResponse {
 
     private String title;
 
-    private String cntent;
+    private String content;
 
     private String explain;
 
