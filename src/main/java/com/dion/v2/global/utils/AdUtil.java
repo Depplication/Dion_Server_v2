@@ -17,7 +17,7 @@ public class AdUtil {
                 .content(ad.getAdContent())
                 .category(ad.getCategory())
                 .email(ad.getEmail())
-                .explain(ad.getExplain())
+                .explain(ad.getStoreExplain())
                 .startDate(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(ad.getStartDate()))
                 .endDate(DateTimeFormatter.ofPattern("yyyy-MM-dd").format(ad.getEndDate()))
                 .productList(ad.getProductList().stream()

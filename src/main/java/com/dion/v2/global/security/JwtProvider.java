@@ -4,12 +4,14 @@ import com.dion.v2.domain.auth.entity.User;
 import com.dion.v2.domain.auth.repository.UserRepository;
 import com.dion.v2.domain.owner.entity.Owner;
 import com.dion.v2.domain.owner.repository.OwnerRepository;
+import com.dion.v2.global.security.service.UserDetailsImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +37,7 @@ public class JwtProvider {
 
     @Transactional
     public Authentication userAuthentication(String token) {
-        User userDetails = userRepository
-                .findById(getTokenSubject(token)).orElseThrow();
+        User userDetails = userRepository.findById(getTokenSubject(token)).orElseThrow();
         return new UserToken(userDetails);
     }
 
