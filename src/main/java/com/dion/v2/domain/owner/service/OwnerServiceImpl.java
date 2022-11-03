@@ -1,6 +1,6 @@
 package com.dion.v2.domain.owner.service;
 
-import com.dion.v2.domain.owner.entity.Account;
+import com.dion.v2.domain.owner.entity.OwnerAccount;
 import com.dion.v2.domain.owner.entity.Owner;
 import com.dion.v2.domain.owner.exception.OwnerAlreadyExistsException;
 import com.dion.v2.domain.owner.exception.OwnerNotFoundException;
@@ -53,7 +53,7 @@ public class OwnerServiceImpl implements OwnerService{
         owner = ownerRepository.save(owner);
 
         for (String account : request.getAccount()) {
-            owner.addAccount(Account.builder()
+            owner.addAccount(OwnerAccount.builder()
                     .accountNumber(account)
                     .build());
         }

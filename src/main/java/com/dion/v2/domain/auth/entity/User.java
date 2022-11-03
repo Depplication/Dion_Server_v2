@@ -49,8 +49,8 @@ public class User {
 
     // 계좌번호 리스트
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accountList;
-    public void addAccount(Account account) {
+    private List<UserAccount> accountList;
+    public void addAccount(UserAccount account) {
         account.setUser(this);
         this.accountList.add(account);
     }
@@ -58,6 +58,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserPoint point;
     public void setPoint(UserPoint point) {
+        point.setUser(this);
         this.point = point;
     }
 
@@ -66,7 +67,7 @@ public class User {
             String userId, String password,
             String userName, String userNumber,
             String addressLatitude, String addressLongitude,
-            List<Account> accountList) {
+            List<UserAccount> accountList) {
         this.userId = userId;
         this.password = password;
         this.userName = userName;

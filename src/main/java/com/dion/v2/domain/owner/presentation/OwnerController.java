@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@Api("업주")
+@Api(tags = "업주")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/owner")

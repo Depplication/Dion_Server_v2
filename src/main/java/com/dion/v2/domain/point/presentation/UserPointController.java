@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@Api("유저 포인트")
+@Api(tags = "유저 포인트")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/point")
+@RequestMapping("/user/point")
 public class UserPointController {
 
     private final UserPointService userPointService;

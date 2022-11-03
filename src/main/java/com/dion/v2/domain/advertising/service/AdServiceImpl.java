@@ -8,12 +8,13 @@ import com.dion.v2.domain.advertising.repository.AdvertisingRepository;
 import com.dion.v2.domain.owner.entity.Owner;
 import com.dion.v2.domain.owner.facade.OwnerFacade;
 import com.dion.v2.domain.product.entity.Product;
-import com.dion.v2.domain.product.exception.ProductAccessWrongException;
 import com.dion.v2.domain.product.exception.ProductNotCoincidenceException;
 import com.dion.v2.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +31,9 @@ public class AdServiceImpl implements AdService {
 
         Advertising ad = Advertising.builder()
                 .adTitle(data.getTitle()).adContent(data.getContent())
-                .explain(data.getExplain()).email(data.getEmail())
+                .storeExplain(data.getExplain()).email(data.getEmail())
                 .startDate(data.getStartDate()).endDate(data.getEndDate())
+                .category(data.getCategory()).productList(new ArrayList<>())
                 .build();
         author.addAdvertising(ad);
 
@@ -41,7 +43,6 @@ public class AdServiceImpl implements AdService {
                         .orElseThrow(() -> {
                             throw new ProductNotCoincidenceException(id);
                         });
-                if(!product.getAuthor().equals(author)) throw ProductAccessWrongException.EXCEPTION;
 
                 ad.addProduct(product);
                 return null;

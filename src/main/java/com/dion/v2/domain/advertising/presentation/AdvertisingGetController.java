@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-@Api("광고 정보")
+@Api(tags = "광고 정보")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ad")

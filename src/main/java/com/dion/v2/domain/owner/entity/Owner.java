@@ -45,10 +45,10 @@ public class Owner {
     private LocalDateTime createdDate;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Account> accountList;
-    public void addAccount(Account account) {
-        account.setOwner(this);
-        getAccountList().add(account);
+    private List<OwnerAccount> accountList;
+    public void addAccount(OwnerAccount ownerAccount) {
+        ownerAccount.setOwner(this);
+        getAccountList().add(ownerAccount);
     }
 
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -69,7 +69,7 @@ public class Owner {
             String ownerId, String password,
             String ownerName, String ownerNumber,
             String storeName, String addressLatitude,
-            String addressLongitude, List<Account> accountList) {
+            String addressLongitude, List<OwnerAccount> accountList) {
         this.ownerId = ownerId;
         this.password = password;
         this.ownerName = ownerName;

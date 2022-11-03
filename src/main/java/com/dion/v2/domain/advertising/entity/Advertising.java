@@ -27,7 +27,7 @@ public class Advertising {
         this.author = author;
     }
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String adTitle;
 
     @Lob
@@ -36,7 +36,7 @@ public class Advertising {
 
     @Lob
     @Column(nullable = false)
-    private String explain;
+    private String storeExplain;
 
     private String email;
 
@@ -57,15 +57,16 @@ public class Advertising {
     @Builder
     public Advertising(
             String adTitle, String adContent,
-            String explain, String email,
+            String storeExplain, String email,
             LocalDateTime startDate, LocalDateTime endDate,
-            Category category) {
+            Category category, List<Product> productList) {
         this.adTitle = adTitle;
         this.adContent = adContent;
-        this.explain = explain;
+        this.storeExplain = storeExplain;
         this.email = email;
         this.startDate = startDate;
         this.endDate = endDate;
         this.category = category;
+        this.productList = productList;
     }
 }

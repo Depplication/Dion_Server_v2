@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@Api("광고")
+@Api(tags = "광고")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ad")

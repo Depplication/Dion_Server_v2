@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "owner_account")
-public class Account {
+public class OwnerAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Account {
     }
 
     @Builder
-    public Account(String accountNumber) {
+    public OwnerAccount(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 

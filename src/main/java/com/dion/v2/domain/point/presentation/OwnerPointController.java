@@ -9,10 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@Api("업주 포인트")
+@Api(tags = "업주 포인트")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/point")
+@RequestMapping("/owner/point")
 public class OwnerPointController {
 
     private final OwnerPointService ownerPointService;
