@@ -3,11 +3,9 @@ package com.dion.v2.domain.auth.facade;
 import com.dion.v2.domain.auth.entity.User;
 import com.dion.v2.domain.auth.exception.UserNotFoundException;
 import com.dion.v2.domain.auth.repository.UserRepository;
-import com.dion.v2.global.security.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
