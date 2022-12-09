@@ -5,6 +5,7 @@ import com.dion.v2.global.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,7 +27,41 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt token으로 인증하므로 세션은 필요없으므로 생성안함.
                 .and()
                 .authorizeRequests() // 다음 리퀘스트에 대한 사용권한 체크
-                .anyRequest().permitAll()
+
+                //Advertising
+                .antMatchers(HttpMethod.GET, "/ad/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/ad/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/ad/**").authenticated()
+
+                //Auth
+                .antMatchers(HttpMethod.GET, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/sign-up", "/auth/sign-in").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/auth/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/auth/**").authenticated()
+
+                //Owner
+                .antMatchers(HttpMethod.GET, "/owner/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/owner/sign-up", "/owner/sign-in").authenticated()
+                .antMatchers(HttpMethod.PATCH, "/owner/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/owner/**").authenticated()
+
+                //Point
+                .antMatchers(HttpMethod.GET, "/user/point/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/user/point/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/owner/point/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/owner/point/**").authenticated()
+
+                //Product
+                .antMatchers(HttpMethod.GET, "/product/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/product/**").authenticated()
+
+                //Upload
+                .antMatchers(HttpMethod.GET, "/upload/product/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/upload/product/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/upload/ad/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/upload/ad/**").authenticated()
+
+                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class); // jwt token 필터를 id/password 인증 필터 전에 넣는다
     }
